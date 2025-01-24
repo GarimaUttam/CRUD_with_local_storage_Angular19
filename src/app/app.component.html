@@ -44,13 +44,21 @@
         </div>
       </div>
       <div class="card-body">
-        <form class="row g-3 needs-validation" novalidate>
+        <form class="row g-3 needs-validation" #formValue = "ngForm">
           <div class="col-md-4">
             <label for="validationCustom01" class="form-label">First name</label>
-            <input type="text" [(ngModel)]="userObj.fName" name="fName" class="form-control" id="validationCustom01" value="Mark" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
+            <input type="text" [(ngModel)]="userObj.fName" #fname = "ngModel" name="fName" class="form-control" id="validationCustom01" minlength="4" value="Mark" required>
+            
+            @if(fname.touched){
+              <div class="text-danger">
+                @if(fname.errors?.['required']){
+                  <span>This is required* </span>
+                }
+                @if(fname.errors?.['minlength']){
+                  <span>Min 4 chars needed*</span>
+                }   
+              </div>
+            }
           </div>
           <div class="col-md-4">
             <label for="validationCustom02" class="form-label">Last name</label>
@@ -109,7 +117,7 @@
           </div>
           <div class="col-12">
             @if(userObj.userId == 0){
-              <button class="btn btn-primary" type="submit" (click)="onSave()">Save User</button>
+              <button class="btn btn-primary" type="submit" (click)="onSave()" [disabled]="formValue.invalid">Save User</button>
             }
             @else {
               <button class="btn btn-warning" type="submit" (click)="onUpdate()">Update</button>

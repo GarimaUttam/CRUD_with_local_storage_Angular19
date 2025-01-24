@@ -9,10 +9,11 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
+  localKey: string = "angular19User";
 
   ngOnInit(): void {
     debugger;
-    const localData = localStorage.getItem('angular19User');
+    const localData = localStorage.getItem('localKey');
     if(localData != null){
       this.userList = JSON.parse(localData);
     }
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit{
     this.userObj.userId = this.userList.length + 1;
     this.userList.push(this.userObj);
     this.userObj = new User();
-    localStorage.setItem('angular19User', JSON.stringify(this.userList));
+    localStorage.setItem('localKey', JSON.stringify(this.userList));
     this.changeView();
   }
 
@@ -51,7 +52,7 @@ export class AppComponent implements OnInit{
       record.zipCode = this.userObj.zipCode;
       record.isAgree = this.userObj.isAgree;
     }
-    localStorage.setItem('angular19User', JSON.stringify(this.userList));
+    localStorage.setItem('localKey', JSON.stringify(this.userList));
     this.changeView();
   }
   onDelete(userId: number){
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit{
     if(isDelete){
       const index = this.userList.findIndex(m => m.userId == userId);
       this.userList.splice(index, 1);
-      localStorage.setItem('angular19User', JSON.stringify(this.userList));
+      localStorage.setItem('localKey', JSON.stringify(this.userList));
     }
 
   }
